@@ -1,0 +1,426 @@
+
+// ============ TEMEL KOMUTLAR ================//
+
+// show dbs;
+
+// db;
+
+// db.dropDatabase();
+
+// db.ogrenciler.drop();
+
+// use("kisiler");
+
+// db.createCollection("ogrenciler");
+
+// db.ogrenciler.insertMany([
+//  {"ad": "mevlevi", "soyad": "cakmak", "yas": 43},
+//  {"ad": "mehmet", "soyad": "cakal", "yas": 63},
+//  {"ad": "mustafa", "soyad": "car", "yas": 53},
+//  {"ad": "mesire", "soyad": "cali", "yas": 23},
+//  {"ad": "muazzez", "soyad": "canan", "yas": 33}
+// ]);
+
+// db.ogrenciler.find();
+
+
+// var date = new Date();
+// db.ogrenciler.insertOne({"date": date});
+
+
+// var date1 = new ISODate();
+// var month = date1.getMonth();
+// db.ogrenciler.insertOne({"ad": "can", "soyad": "gelen", "yas": 20, "dogumAyi": month})
+
+
+
+//=====================================================================================//
+
+
+// use('urunler');
+
+// db.fiyatlar.insertMany([
+
+//   { 'urunAdi': 'Tv', 'fiyat': 10, 'vergi': 10  },
+//   {'urunAdi': 'Buzdolabi', 'fiyat': 20, 'vergi': 15},
+//   {'urunAdi': 'Sehpa', 'fiyat': 5, 'vergi': 14},
+//   {'urunAdi': 'Koltuk', 'fiyat': 5, 'vergi':  30 },
+//   { 'urunAdi': 'Utu', 'fiyat': 10, 'vergi': 50},
+//   {'urunAdi': 'Koltuk', 'fiyat': 7.5, 'vergi': 60},
+//   {'urunAdi': 'Telefon', 'fiyat': 7.5, 'vergi': 40},
+//   {'urunAdi': 'Bilgisayar', 'fiyat': 10, 'vergi': 50 },
+
+// ]);
+
+
+//db.fiyatlar.find().limit(3);
+
+
+//db.fiyatlar.find().skip(1).limit(2);
+
+
+//db.fiyatlar.find().limit(1);
+
+
+//db.fiyatlar.findOne();
+
+
+
+//=============  LOGICAL QUERY ($and, $or, $not, $nor)  ==================//
+
+//db.fiyatlar.insertOne({"urunAdi": "Tablet", "fiyat": "30", "vergi": "45"});
+
+
+//db.fiyatlar.find({"fiyat" :10});
+
+
+//db.fiyatlar.find({"fiyat": {$eq: 20}});
+
+
+//db.fiyatlar.find({"urunAdi": "Tv", "fiyat":{$eq: 10}});
+
+
+//db.fiyatlar.find({$and: [{"fiyat":10},{"urunAdi": "Tv"}]});
+
+
+//db.fiyatlar.find({$or: [{"urunAdi": "Utu"}, {"vergi":10}]})
+
+
+// db.fiyatlar.find({"vergi": {$not: {$eq: 10}}});
+
+//db.fiyatlar.find({$nor: [{"urunAdi" : "Tv"}, {"vergi":10}]});
+
+
+
+//=================== PROJECTTION ===============================//
+
+// sadece urun adi ve fiyat listelendi
+//db.fiyatlar.find({},{"fiyat": 1, "urunAdi": 1, "_id":0})
+
+
+ // db.fiyatlar.find({"urunAdi": "Koltuk"}, {"urunAdi":1, "fiyat":1, "_id":0})
+
+
+
+
+//============= COMPARAISON OPERATOR ===============================//
+
+// $eq: esit mi
+// $lt:  kucuk mu
+// $gt: buyuk mu
+// $lte: kucuk esit mi
+// $gte: buyuk esit mi
+// $ne: esit degil mi
+// $in: belirtilen deger birisine esit mi
+// $nin: tum degerlere esit degil mi
+// {field: {$gte: value}}
+
+// db.fiyatlar.find({"fiyat":{$eq: 10}})
+
+// db.fiyatlar.find({"fiyat": {$gte: 10}}, {"urunAdi": 1, "fiyat": 1, "_id": 0})
+
+
+//db.fiyatlar.find({"fiyat": {$lte: 4000}}, {"urunAdi":1, "_id":0})
+
+
+//db.fiyatlar.find({"fiyat": {$in: [5,10,20]}})
+
+
+//db.fiyatlar.find({$or: [{"fiyat": 5}, {"fiyat": 15}, {"fiyat":30}]})
+
+
+//db.fiyatlar.find({"fiyat":{$nin: [5, 10, 30]}},{"_id": 0})
+
+
+//db.fiyatlar.find({"fiyat": {$lt: 10}, urunAdi:{$ne: "Utu"}},{urunAdi:1, fiyat:1, _id:0})
+
+
+//db.fiyatlar.find({$or: [{"fiyat": {$lt:10}, {"urunAdi": "Koltuk"}]}, {"urunAdi":1, "fiyat":1, "_id":0});
+
+
+// artan sirada siraladik
+// db.fiyatlar.find().sort({fiyat:1});
+
+
+// db.fiyatlar.find().sort({},{urunAdi:1,_id:0}).sort({fiyat:-1})
+
+
+// db.fiyatlar.find({fiyat:5}, {_id:0}).sort({urunAdi:1})
+
+
+
+//=================== findOneAndUpdate - findOneAndReplace ==================================//
+
+// use("kisiler")
+
+//  db.createCollection("personel")
+
+// db.personel.insertMany([
+//  {"ad": "mevlevi", "soyad": "cakmak", "yas": 43, "iseBaslama": new Date('2004-04-03')},
+//  {"ad": "mehmet", "soyad": "cakal", "yas": 63, "iseBaslama": new Date('2008-04-03')},
+//  {"ad": "mustafa", "soyad": "car", "yas": 53, "iseBaslama": new Date('2007-04-03')},
+//  {"ad": "mesire", "soyad": "cali", "yas": 23, "iseBaslama": new Date('2006-04-03')},
+//  {"ad": "muazzez", "soyad": "canan", "yas": 33, "iseBaslama": new Date('2005-04-03')}
+// ]);
+
+
+// db.personel.findOneAndReplace({"yas": {$lt: 40}},{"yas":40})
+
+
+//db.personel.findOneAndReplace({"maas": "4300"}, {"maas":6000, "ad": "harun", "iseBaslama": new Date()})
+
+
+// db.personel.findOneAndReplace({maas: {$lte: 4000}}, {maas: 7000})
+
+
+// db.personel.findOneAndReplace({}, {isim: "noName", iseBaslama:"noDate" , maas: 0},{sort:{maas:1}})
+
+//db.personel.findOneAndUpdate({maas: "3200"}, {$set: {maas: "9000"}})
+
+
+// db.personel.findOneAndUpdate({yas: 63},{$inc:{yas:5}})
+
+
+// db.personel.findOneAndUpdate({yas:33}, {$mul:{yas:2}})
+
+
+// eger belirtilen data yoksa {upsert:true} yontemiyle yeni obje olusturulur
+
+// db.personel.findOneAndUpdate({maas: 4000},{$set: {ad:"selim", iseBaslama: new Date()}},{upsert:true})
+
+      
+
+//=======================  updateOne - updateMnay  ==========================================//
+
+// db.personel.updateOne({ad:"muazzez"},{$set:{maas:"7500"}})
+
+// db.personel.updateMany({maas: 6000},{$set: {prim: 300}},{upsert: true})
+
+// db.personel.updateMany({maas: 2000},{$set:{prim: 400}},{upsert:true})
+
+
+
+
+//================== deleteOne - deleteMany - remove ==============================//
+
+// db.personel.deleteOne({ad: "mert"})
+
+
+// db.personel.deleteMany({maas: 9000});
+
+// db.personel.deleteMany({})
+
+
+
+//==================== AGGREGATION ===========================================//
+
+
+//     SQL         MONGO
+//------------------------
+//     WHERE         $match
+//     GROUP BY 	 $group
+//     HAVING	     $match
+//     SELECT	     $project
+//     ORDER BY      $sort
+//     LIMIT	     $limit
+//     SUM()	     $sum
+//     COUNT()	     $count, $sum
+//     JOIN	          $lookup
+//     MERGE 	     $merge (MongoDB 4.2 ve sonrasi)
+
+
+// use("kisiler");
+
+// db.createCollection("ogrenciler");
+
+
+// db.ogrenciler.insertMany([
+// {"isim": "Tarik", "yas":17, "sube": "A", "not":97, "dersler":["fizik", "mat"]}, 
+// {"isim": "Selim", "yas":37, "sube": "A","not":77,},
+// {"isim": "Nalan", "yas":17, "sube": "B","not":55, "dersler":["fizik", "inglizce"]},
+// {"isim": "Burhan", "yas":21, "sube": "B","not":43, "dersler":["fizik", "mat"]},
+// {"isim": "Niyazi", "yas":40, "sube": "B","not":99, "dersler":["inglizce"]},
+// {"isim": "Galip", "yas":37, "sube": "A","not":34, "dersler":["inglizce"]},
+// {"isim": "Teslime", "yas":24, "sube": "A","not":88, "dersler":["mat","fizik","kimya"]}]);
+
+
+// db.ogrenciler.find()
+
+// db.ogrenciler.aggregate({$match: {yas: {$gt:30}}})
+
+// db.ogrenciler.aggregate({$match: {sube:"B", yas: {$lt:30}}})
+
+// db.ogrenciler.aggregate({$match: {sube:"B"}},{$count: "B subesi ogr sayisi"})
+
+// db.ogrenciler.count()
+
+//db.ogrenciler.aggregate({$group:{_id:"$sube", ToplamOgr: {$sum: 1}}})
+
+//db.ogrenciler.aggregate({$group: {_id: "$sube", TopOgr{$sum: 1}, makNot:{$max:"$not"}}})
+
+//db.ogrenciler.aggregate([{$match: {yas: {$lt: 30}}}, {$group:{_id:"$sube", notOrt:{$avg: "$not"}}}])
+
+// db.ogrenciler.aggregate([{$match: {dersler: "ingilizce"}}, {_id: "$sube", IngAlSay: {$sum: 1}}}])
+
+// db.ogrenciler.aggregate({$match: {dersler:["fizik", "Matematik"]}},{$group:{_id: "$sube", FizveMatAl:{$sum:1}}})
+
+// db.ogrenciler.aggregate([{$match: {sube: "A"}},{$sort:{yas: -1, not: 1}}]);
+
+
+
+//======================= pipeline =================================================//
+
+// use("kisiler")
+
+// db.createCollection("hesaplar")
+
+// db.hesaplar.insertMany(
+// [{"isim" : "ali", "harcamalar":[-80, -40, -50, -120], "kazanc":[100, 150]},
+// {"isim" : "Can", "harcamalar" : [-60, -30, -20], "kazanc" : [200, 50, 130] },
+// {"isim" : "Canan", "harcamalar" : [-80, -40, -50], "kazanc" : [300, 450] },
+// {"isim" : "Betul", "harcamalar" : [-80, -120], "kazanc" : [500, 50, 70, 10] },
+// {"isim" : "Ahsen", "harcamalar" : [-140, -50, -120], "kazanc" : [400] },
+// {"isim" : "Su", "harcamalar" : [-120], "kazanc" : [22, 375, 65] },
+// {"isim" : "Pelin", "harcamalar" : [-180, -40, -70, -12], "kazanc" : [500, 650, 400]}]); 
+
+// db.hesaplar.find()
+
+
+
+// pipeline1 = [
+//  {$addFields : {toplamHarcama : {$sum: "$harcamalar"}, toplamKazanc :{$sum: "$kazanc"}}},
+//  {$addFields : {bakiye: {$add:["$toplamHarcama", "$toplamKazanc"]}}},
+//  {$sort:{bakiye:-1}},
+// {$project: {"harcamalar":0, kazanc:0, _id:0}}
+// ]
+
+// db.hesaplar.aggregate(pipeline1)
+
+
+
+// NOT: hesaplar collection nun bir kopyasini muhasebe icin olusturduk
+//db.hesaplar.aggregate({$project: {_id:0}},{$merge:{into:"muhasebe"}})
+//db.muhasebe.find()
+
+
+//db.hesaplar.aggregate({$project: {_id: 0, harcamalar:0}},{$merge:{into:"idare"}})
+
+
+
+
+////==================================================================================
+////                                  BULKWRITE
+////  Birden fazla islemi ayni komutla gerceklestirmek icin BulkWrite kullanilabilir.
+//==================================================================================
+
+// use("kisiler");
+// // db.hikayeler.insertMany(
+// // [{"yazar" : "Mehmet Bak", "fiyat" : 60, "yayinYili" : 1998 },
+// // {"yazar" : "Ali Gel", "fiyat" : 75, "yayinYili" : 2000 },
+// // {"yazar" : "Su Ak", "fiyat" : 90, "yayinYili" : 2005 },
+// // {"yazar" : "İsmet Kaç", "fiyat" : 35, "yayinYili" : 2010 },
+// // {"yazar" : "Pelin Su", "fiyat" : 80, "yayinYili" : 2020 },
+// // {"yazar" : "Suat Ok", "fiyat" : 54, "yayinYili" : 2001}]);
+
+// db.hikayeler.bulkWrite([
+//  {insertOne:{"document": {"yazar": "selim genc", "fiyat": 77, "yayinYili":2021}}},
+//  {updateOne:{"filter": {yazar:"Ali Gel"}, "update": {$set: {fiyat:90}}}},
+//  {replaceOne:{"filter": {yazar: "Pelin Su"}, "replacement" : {"yazar": "Ceylan Kaya", "fiyat": 55}}},
+//  {deleteOne:{"filter":{yazar: "Suat Ok"}}}
+// ])
+
+
+
+////==================================================================================
+////                          UNIONWITH (FULL JOIN)
+////==================================================================================
+//  - SQL'deki UNION ALL komutuna benzer.
+//  - 2 collection'nin birlesimini gerceklestirmek icin kullamilir. 
+//  - Ornegin, $unionWith 2 farklı collection'daki pipeline sonuclarini tek bir 
+//    sonuc setinde birlesitirir. 
+//  - Bu sonuc seti pipeline'da bir sonraki asamaya iletibilir.
+//  - SYNTAX:
+//  - { $unionWith: { coll: "<collection>", pipeline: [ <stage1>, ... ] } }
+////==================================================================================
+
+use("kisiler");
+
+// db.romanlar.insertMany(
+// [{"yazar" : "Mehmet Bak", "fiyat" : 60, "yayinEvi" : "Yildiz", "adet": 1000 },
+// {"yazar" : "Ali Gel", "fiyat" : 75, "yayinEvi" : "MaviAy", "adet": 1200 },
+// {"yazar" : "Su Ak", "fiyat" : 90, "yayinEvi" : "Caliskan", "adet": 2200},
+// {"yazar" : "Meryem Can", "fiyat" : 35, "yayinEvi" : "MorEv","adet": 560},
+// {"yazar" : "Pelin Su", "fiyat" : 80, "yayinEvi" : "Hedef", "adet": 890 },
+// {"yazar" : "Suat Ok", "fiyat" : 54, "yayinEvi" : "Sinir","adet": 245}]);
+
+
+
+// db.denemeler.insertMany(
+// [{"muellif" : "Mehmet Bak", "fiyat" : 34, "yayinEvi" : "Yildiz", "adet": 400 },
+// {"muellif" : "Deniz Kos", "fiyat" : 44, "yayinEvi" : "Yildiz", "adet": 350 },
+// {"muellif" : "Su Ak", "fiyat" : 50, "yayinEvi" : "MorEv", "adet": 200},
+// {"muellif" : "İsmet Kaç", "fiyat" : 25, "yayinEvi" : "Hedef","adet": 800},
+// {"muellif" : "Ali Gel", "fiyat" : 40, "yayinEvi" : "Hedef", "adet": 1200 },
+// {"muellif" : "Meryem Can", "fiyat" : 22, "yayinEvi" : "MaviAy","adet": 300}]);
+
+
+// her iki tablodaki bilgileri buyukten siraladik
+// db.romanlar.aggregate([
+//  {$unionWith: {coll:"denemeler"}},
+//  {$sort: {adet: -1}}
+// ])
+
+// db.denemeler.aggregate([
+//  {$unionWith: {coll:"romanlar"}},
+//  {$sort:{adet:-1}},
+//  {$project: {_id:0}}
+// ])
+
+
+// db.romanlar.aggregate([
+//  {$unionWith: {coll:"denemeler"}},
+//  {$group:{_id:"$yayinEvi", TopAdet:{$sum:"$adet"}}},
+//  {$sort: {TopAdet:1}}
+// ])
+
+
+// db.romanlar.aggregate([
+//  {$unionWith:{coll:"denemeler"}},
+//  {$group:{_id:"$yayinEvi", TopGel:{$sum:{$multiply:["$fiyat", "$adet"]}}}},
+//  {$sort: {TopGel:-1}}
+// ])
+
+// db.romanlar.aggregate([
+//  {$unionWith:{coll:"denemeler"}},
+//  {$group: {_id:"$yazar", topKitap:{$sum:"$adet"}}}
+// ])
+
+////==================================================================================
+////                       $LOOKUP (LEFT, RIGHT, INNER JOIN) 
+////    {
+////      $lookup:
+////      {
+////        from: <Join uygulanacak collection>,
+////        localField: <giris dokumanindaki ilgili sutunu>,
+////        foreignField: <Join yapilacak collectiondaki ilgili sutun>,
+////        as: <cikis sutunu>
+////      }
+////   }
+////==================================================================================
+
+// db.romanlar.aggregate({
+//  $lookup : {
+//   from:"denemeler",
+//   localField: "yazar",
+//   foreignField: "muellif",
+//   as:"yazarlar"
+//  }},
+//  {
+//   $unwind: {
+//     path: "$yazarlar",
+//     preserveNullAndEmptyArrays:true
+//   }},
+//   {
+//   $project: 
+//      {topKitap: {$add: ["$adet", {$ifNull:["$yazarlar.adet", 0]}]}, _id:0}
+//   })
