@@ -1,0 +1,315 @@
+
+use("personal")
+
+//========================= INTRO ==================// 
+
+// db;
+
+// db.dropDatabase();
+
+// db.createCollection("student")
+
+// db.student.drop()
+
+// db.student.insertOne({"id":1, "name":"kemal","surname":"alik","age":27})
+
+ // db.student.insertMany(
+ //  [{"id":2, "name":"ali","surname":"ince","age":21},
+ //  {"id":3, "name":"ahmet","surname":"keriz","age":31},
+ //  {"id":4, "name":"asim","surname":"kar","age":41}]
+ //  )
+
+
+// var date = new Date();
+// db.student.insertOne({"date":date});
+
+
+// var date1=new ISODate();
+// var month = date1.getMonth();
+// db.student.insertOne({"id":5,"name":"murat","surname":"cakir","age":33,"month":month})
+
+
+// db.student.find()
+
+//===================== QUERY =====================//
+
+// db.createCollection("teacher")
+
+// db.teacher.insertOne({"id":1,"name":"fatih","surname":"ince","age":33})
+
+// db.teacher.insertMany([
+//  {"id":2,"name":"mehmet","surname":"kara","age":33},
+//  {"id":3,"name":"kamil","surname":"alim","age":33},
+//  {"id":4,"name":"hasan","surname":"tas","age":33}
+//  ])
+
+// db.teacher.find().limit(2)
+
+// db.teacher.find().skip(1).limit(2)
+
+// db.teacher.find().limit(1)
+
+// db.teacher.findOne()
+
+
+// db.product.drop()
+
+// db.createCollection("product");
+
+// db.product.insertMany([
+//  {"produtcname":"computer","quantity":5,"preise":5000,"tax":10},
+//  {"produtcname":"tablet","quantity":5,"preise":5000,"tax":10},
+//  {"produtcname":"phone","quantity":5,"preise":5000,"tax":10},
+//  {"produtcname":"TV","quantity":5,"preise":5000,"tax":10}
+// ])
+
+// db.product.find()
+
+// db.product.find({"preise":5000})
+
+// db.product.find({"preise":{$eq:5000}});
+
+// db.product.find({$and:[{"preise":5000},{"produtcname":"TV"}]});
+
+
+// db.product.find({$or:[{"produtcname":"phone"},{"tax":20}]})
+
+
+// db.product.find({"tax":{$not:{$eq:10}}})
+
+
+// db.product.find({$nor:[{"produtcname":"TV"}, {"tax":10}]})
+
+
+// db.product.find({"produtcname":"TV"}, {"preise":1, "_id":0})
+
+
+// db.product.find({},{"preise":1,"produtcname":1,"_id":0})
+
+
+// db.product.find({"produtcname":"phone"},{"produtcname":1,"preise":1, "_id":0})
+
+
+// db.product.find({"preise":{$gte:4000}},{"produtcname":1,"preise":1, "_id":0})
+
+
+// db.product.find({preise:{$lte:4000}},{produtcname:1, _id:0})
+
+// db.product.find({preise:{$in:[1500,3000,7000]}})
+
+// db.product.find({$or:[{preise:3000},{preise:4000},{preise:7000}]})
+
+
+// db.product.find({preise:{$in:[1500,3000,7000]}},{_id:0})
+
+
+// db.product.find({preise:{$nin:[1500,3000,7000]}},{_id:0})
+
+
+// db.product.find({preise:{$lt:5000}, produtcname:{$ne:"phone"}},{produtcname:1,preise:1,_id:0})
+
+
+// db.product.find({$or:[{preise:{$lt:5000}},{produtcname:"computer"}]},{produtcname:1,preise:1,_id:0})
+
+
+// db.product.find().sort({preise:-1})
+
+
+// db.product.find({},{produtcname:1,preise:1,_id:0}).sort({preise:1})
+
+
+// db.product.find({preise:5000},{_id:0}).sort({produtcname:1})
+
+// db.product.drop()
+
+//===================== UPDATE =====================//
+
+// db.createCollection("employee")
+
+// db.employee.insertMany([
+//  {"name":"kadir","surname":"inan","salary":3000,"date":new Date("2004-09-08")},
+//  {"name":"ali","surname":"kara","salary":4000,"date":new Date("2005-09-06")},
+//  {"name":"halil","surname":"mutlu","salary":5000,"date":new Date("2006-05-03")},
+//  {"name":"orhan","surname":"yasar","salary":6000,"date":new Date("2007-03-05")},
+//  {"name":"alev","surname":"ermis","salary":3500,"date":new Date("2008-02-07")},
+//  {"name":"ayse","surname":"eski","salary":2500,"date":new Date("2009-11-10")},
+//  {"name":"ferit","surname":"alp","salary":3700,"date":new Date("2010-12-12")},
+// ])
+
+
+// db.employee.find()
+
+// db.employee.findOneAndReplace({salary:{$lte:4000}},{salary:6000})
+
+
+// db.employee.findOneAndReplace({salary:5000},{salary:6500,name:"ali",surname:"kazma",date:new Date()})
+
+
+// db.employee.findOneAndReplace({},{name:"noname", date:"nodate",salary:1000},{sort:{salary:-1}})
+
+// db.employee.findOneAndUpdate({salary:3700},{$set:{salary:4800}})
+
+// db.employee.findOneAndUpdate({salary:6000},{$mul:{salary:1.1}})
+
+// db.employee.findOneAndUpdate({salary:4800},{$inc:{salary:500}})
+
+// db.employee.findOneAndUpdate({salary:6600},{$set: {name:"hakan",surname:"calik",date:new Date()}},{upsert:true})
+
+
+// db.employee.updateOne({name:"ferit"},{$set:{salary:18000}})
+
+// db.employee.updateMany({salary:5000},{$set:{bonus:300}},{upsert:true})
+
+
+//===================== DELETE =====================//
+
+// db.employee.deleteOne({name:"ferit"})
+
+// db.employee.deleteMany({salary:6600})
+
+ // db.employee.deleteMany({})
+
+// db.employee.drop()
+
+//===================== AGGREGIATION =====================//
+
+                      // PIPELINE //
+
+// db.createCollection("student")
+
+// db.student.insertMany([
+//  {"name":"kadir","surname":"inan","note":30,"clas":"A","lessson":["Fiz","Mat"]},
+//  {"name":"kerim","surname":"irmak","note":60,"clas":"A","lessson":["Fiz","Mat"]},
+//  {"name":"ali","surname":"kara","note":40,"clas":"B","lessson":["Fiz","Mat"]},
+//  {"name":"halil","surname":"mutlu","note":50,"clas":"C","lessson":["Fiz","Mat"]},
+//  {"name":"orhan","surname":"yasar","note":60,"clas":"A","lessson":["Fiz","Mat"]},
+//  {"name":"alev","surname":"ermis","note":35,"clas":"B","lessson":["Fiz","Mat"]},
+//  {"name":"ayse","surname":"eski","note":85,"clas":"C","lessson":["Fiz","Mat"]},
+//  {"name":"ferit","surname":"alp","note":70,"clas":"D","lessson":["Fiz","Fen"]},
+//  {"name":"ferdi","surname":"ark","note":90,"clas":"D","lessson":["Kim","Mat"]},
+//  {"name":"feride","surname":"alma","note":100,"clas":"B","lessson":["Biy","Ing"]},
+// ])
+
+
+
+// db.student.aggregate({$match:{note:{$gt:50}}})
+
+// db.student.aggregate({$match:{clas:"B", note:{$lt:70}}})
+
+
+// db.student.aggregate({$match:{clas:"A"}},{$count:"a sinif sayi"})
+
+// db.student.count({clas:"B"})
+
+// db.student.aggregate({$group:{_id:"$clas", sumstudeent:{$sum:1}}})
+
+// var pipeline = {$group:{_id:"$clas", toplamOgr:{$sum:1}, maxNote:{$max:"$note"}}}
+// db.student.aggregate(pipeline)
+
+
+// db.student.aggregate([
+//  {$match:{note:{$lte:70}}},
+//  {$group:{_id:"$clas", ortNot:{$avg:"$note"}}}
+//  ])
+
+
+// db.student.aggregate([
+//  {$match:{lessson:"Fiz"}},
+//  {$group:{_id:"$clas", FizAlan:{$sum:1}}}
+// ])
+
+
+// db.student.aggregate([
+//  {$match:{lessson:["Fiz", "Mat"]}},
+//  {$group:{_id:"$clas", FizMatAlan:{$sum:1}}}
+// ])
+
+
+
+// db.student.aggregate([
+//  {$match:{clas:"A"}},
+//  {$sort:{note:-1}}
+// ])
+
+
+
+// db.harcamalar.insertMany([
+//  {"name":"kadir","surname":"inan","kazanc":[300,500],"harcama":[-100,-200]},
+//  {"name":"kerim","surname":"irmak","kazanc":[300,500],"harcama":[-130,-240]},
+//  {"name":"ali","surname":"kara","kazanc":[300,500],"harcama":[110,-130]},
+//  {"name":"halil","surname":"mutlu","kazanc":[300,500],"harcama":[-50,-250]},
+//  {"name":"orhan","surname":"yasar","kazanc":[300,500],"harcama":[-30,-340]},
+//  {"name":"alev","surname":"ermis","kazanc":[300,500],"harcama":[-430,-230]},
+//  {"name":"ayse","surname":"eski","kazanc":[300,500],"harcama":[-310,-320]},
+//  {"name":"ferit","surname":"alp","kazanc":[300,500],"harcama":[-320,-330]},
+//  {"name":"ferdi","surname":"ark","kazanc":[300,500],"harcama":[-390,-320]},
+//  {"name":"feride","surname":"alma","kazanc":[300,500],"harcama":[-330,-330]},
+// ])
+
+
+// db.harcamalar.aggregate([
+//  {$addFields:{topHar:{$sum:"$harcama"}, topKaz:{$sum:"$kazanc"}}},
+//  {$addFields:{bakiye:{$add:["$topHar","$topKaz"]}}},
+//  {$sort:{bakiye:1}}])
+
+
+// db.harcamalar.aggregate({$project:{_id:0}},{$merge:{into:"muhasebe"}})
+
+// db.harcamalar.aggregate({$project:{harcama:0,_id:0}},{$merge:{into:"kazanc"}})
+
+
+// db.books.insertMany([
+//  {"autor":"kadir","surname":"inan","preise":40,"date":2002},
+//  {"autor":"kerim","surname":"irmak","preise":60,"date":2003},
+//  {"autor":"ali","surname":"kara","preise":40,"date":2001},
+//  {"autor":"halil","surname":"mutlu","preise":50,"date":2006},
+//  {"autor":"orhan","surname":"yasar","preise":20,"date":2007},
+//  {"autor":"alev","surname":"ermis","preise":40,"date":2008},
+//  {"autor":"ayse","surname":"eski","preise":70,"date":2002},
+//  {"autor":"ferit","surname":"alp","preise":80,"date":2006},
+//  {"autor":"ferdi","surname":"ark","preise":90,"date":2004},
+//  {"autor":"feride","surname":"alma","preise":30,"date":2010},
+// ])
+
+
+//toplu degisiklik
+// db.books.bulkWrite([
+//  {insertOne:{"document":{autor:"halis",preise:90,date:2020}}},
+//  {updateOne:{"filter":{autor:"ferit"}, "update":{$set:{preise:79}}}},
+//  {replaceOne:{"filter":{autor:"feride"},"replacement":{autor:"pelin",preise:55}}},
+//  {deleteOne:{"filter":{autor:"orhan"}}}
+// ]);
+
+
+// db.books.aggregate([
+//  {$unionWith:{coll:"student"}},
+//  {$sort:{adet:-1}}
+// ])
+
+
+// db.student.aggregate([
+//  {$unionWith:{coll:"books"}},
+//  {$sort:{adet:-1}},
+//  {$project:{ _id:0}}
+// ])
+
+
+
+// db.books.aggregate([
+//  {$unionWith:{coll:"student"}},
+//  {$group:{_id:"$surname", topAdet:{$sum:"$kisi"}}},
+//  {$sort:{topAdet:1}}
+// ]);
+
+
+
+// db.books.aggregate([
+//  {$unionWith: {coll: 'product'}},
+//  {$group:{_id:"$name"}, topAdet:{$sum:"$preise"}}
+// ])
+
+
+//NOTLAR
+// ayni anda birden fazla veri islemek icin bulkWrite komutunu kullaniyoruz
+// mongo da fulljoin unionWith komutu ile kullanilir
+// sharding ve chunk Fsgrid konularina bak
